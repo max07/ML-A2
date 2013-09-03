@@ -1,0 +1,38 @@
+%CS13M027 Q1 %
+a= rand (10,10);
+a= a+a';
+a=a+3*eye(10);
+
+
+mu = ones(1,10);
+mu1= 2*mu;
+mu2= 5*mu;
+ac= cov(a);
+
+A = mvnrnd(mu1,a,1000);
+B = mvnrnd(mu2,a,1000);
+
+Arandperm = A (randperm(1000,1000),:);
+Arand1 = Arandperm (1:400,:);
+Arand2 = Arandperm (401:1000,:);
+
+Brandperm = B (randperm(1000,1000),:);
+Brand1 = Brandperm (1:400,:);
+Brand2 = Brandperm (401:1000,:);
+
+
+test1= zeros(800,10);
+test1(1:400,:)=Arand1;
+test1(401:800,:)=Brand1;
+
+train1= zeros(1200,10);
+train1(1:600,:)= Arand2;
+train1(601:1200,:)= Brand2;
+
+csvwrite('DS1Train.csv',train1);
+csvwrite('DS1Test.csv',test1);
+
+DS1 = zeros (2000,10);
+DS1(1:1200,:)= train1;
+DS1(1201:2000,:)= test1;
+csvwrite('DS1.csv',DS1);

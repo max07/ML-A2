@@ -1,0 +1,78 @@
+A6 = csvread('ex51.csv');
+A6randperm = A6 (randperm(1994,1994),:);
+
+A6train1 = A6randperm (1:320,:);
+A6test1 = A6randperm (321:400,:);
+A6train2 = A6randperm (401:720,:);
+A6test2 = A6randperm (721:800,:);
+A6train3 = A6randperm (801:1120,:);
+A6test3 = A6randperm (1121:1200,:);
+A6train4 = A6randperm (1201:1520,:);
+A6test4 = A6randperm (1521:1600,:);
+A6train5 = A6randperm (1601:1920,:);
+A6test5 = A6randperm (1921:1994,:);
+
+
+
+m11=mean(A6train1(:,1));
+m11=m11* ones(320,122);
+m22=mean(A6train2(:,1));
+m22=m22* ones(320,122);
+m33=mean(A6train3(:,1));
+m33=m33* ones(320,122);
+m44=mean(A6train4(:,1));
+m44=m44* ones(320,122);
+m55=mean(A6train5(:,1));
+m55=m55* ones(320,122);
+
+A61 = zeros (320,122);
+A62 = zeros (320,122);
+A63 = zeros (320,122);
+A64 = zeros (320,122);
+A65 = zeros (320,122);
+
+for i = 1:122
+A61(:,i) = A6train1(:,i) - m11(:,i);
+A62(:,i) = A6train2(:,i) - m22(:,i);
+A63(:,i) = A6train3(:,i) - m33(:,i);
+A64(:,i) = A6train4(:,i) - m44(:,i);
+A65(:,i) = A6train5(:,i) - m55(:,i);
+end
+
+
+
+for lambda = 1 : 70
+    
+Beta61 = ridge(Y6(1:320,1),A61,lambda);
+out1 = A6test1*Beta61;
+
+rss71= sum((out1-Y6(321:400,1)).^2);
+rss71
+
+
+Beta62 = regress(Y6(401:720,1),A62,lambda);
+out2 = A6test2*Beta62;
+
+rss72= sum((out2-Y6(721:800,1)).^2);
+rss72
+
+Beta63 = regress(Y6(801:1120,1),A63,lambda);
+out3 = A6test3*Beta63;
+
+rss73= sum((out3-Y6(1121:1200,1)).^2);
+rss73
+
+
+Beta64 = regress(Y6(1201:1520,1),A64,lambda);
+out4 = A6test4*Beta64;
+
+rss74= sum((out4-Y6(1521:1600,1)).^2);
+rss74
+
+
+Beta65 = regress(Y6(1601:1920,1),A65,lambda);
+out5 = A6test5*Beta65;
+
+rss75= sum((out5-Y6(1921:1994,1)).^2);
+rss75
+end

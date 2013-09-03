@@ -1,0 +1,53 @@
+%CS13M027 Q6 %
+
+
+A6 = csvread('ex5.csv');
+A6randperm = A6 (randperm(1994,1994),:);
+
+A6train1 = A6randperm (1:320,:);
+A6test1 = A6randperm (321:400,:);
+A6train2 = A6randperm (401:720,:);
+A6test2 = A6randperm (721:800,:);
+A6train3 = A6randperm (801:1120,:);
+A6test3 = A6randperm (1121:1200,:);
+A6train4 = A6randperm (1201:1520,:);
+A6test4 = A6randperm (1521:1600,:);
+A6train5 = A6randperm (1601:1920,:);
+A6test5 = A6randperm (1921:1994,:);
+
+
+Beta61 = regress(Y6(1:320,1),A6train1);
+out1 = A6test1*Beta61;
+
+rss1= sum((out1-Y6(321:400,1)).^2);
+rss1
+
+
+Beta62 = regress(Y6(401:720,1),A6train2);
+out2 = A6test2*Beta62;
+
+rss2= sum((out2-Y6(721:800,1)).^2);
+rss2
+
+Beta63 = regress(Y6(801:1120,1),A6train3);
+out3 = A6test3*Beta63;
+
+rss3= sum((out3-Y6(1121:1200,1)).^2);
+rss3
+
+
+Beta64 = regress(Y6(1201:1520,1),A6train4);
+out4 = A6test4*Beta64;
+
+rss4= sum((out4-Y6(1521:1600,1)).^2);
+rss4
+
+
+Beta65 = regress(Y6(1601:1920,1),A6train5);
+out5 = A6test5*Beta65;
+
+rss5= sum((out5-Y6(1921:1994,1)).^2);
+rss5
+
+
+

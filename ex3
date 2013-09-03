@@ -1,0 +1,38 @@
+%CS13M027 Q3 %
+
+Class = knnclassify (DS1Test, DS1Train, Ytrain, 5);
+
+TruePositive1 = 0;
+TrueNegative1 = 0;
+    
+    for i = 1 : 400
+        if (Class(i)==0 && Ytest(i)==0)
+          TruePositive1=TruePositive1+1;
+        end
+    end
+    
+    for i = 401 : 800
+        if (Class(i)==1 && Ytest(i)==1)
+          TrueNegative1=TrueNegative1+1;
+        end
+    end
+7    
+    
+       FalsePositive = 400 - TrueNegative1;
+       FalseNegative = 400 - TruePositive1;
+       
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%       
+
+Precisionk = TruePositive1/(TruePositive1+FalsePositive);
+Precisionk
+
+Recallk = TruePositive1/400;
+Recallk
+
+Accuracyk = ( TrueNegative1 + TruePositive1 )/800;
+Accuracyk
+
+Fmeasurek = (2*Precisionk*Recallk)/(Precisionk+Recallk);
+Fmeasurek
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

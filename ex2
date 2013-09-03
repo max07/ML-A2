@@ -1,0 +1,79 @@
+%CS13M027 Q2%
+
+YAtrain = zeros (600,1);
+YBtrain = ones (600,1);
+
+YAtest= zeros(400,1);
+YBtest= ones (400,1);
+
+Ytrain(1:600,:) = YAtrain;
+Ytrain(601:1200,:)= YBtrain;
+
+Ytest(1:400,:)= YAtest;
+Ytest(401:800,:)= YBtest;
+
+DS1Train = train1;
+
+DS1Test = test1;
+
+DS1Train (:,11)= 1;
+DS1Train = circshift(DS1Train, [0, 1]);
+%DS1Train
+
+
+DS1Test (:,11)= 1;
+DS1Test = circshift(DS1Test, [0, 1]);
+%DS1Test
+
+Beta = regress(Ytrain,DS1Train);
+
+EClass = DS1Test * Beta;
+
+OClass = -1 * ones(800,1);
+
+for i = 1 : 800
+        if (EClass(i , 1) < 0.5)
+            OClass(i , 1) = 0;
+        else
+            OClass(i , 1) = 1;
+        end
+end
+
+%Actual = Ytest
+
+%Predicted = OClass
+
+csvwrite('Class.csv',OClass);
+
+
+TruePositive = 0;
+TrueNegative = 0;
+    
+    for i = 1 : 400
+        if (OClass(i)==0 && Ytest(i)==0)
+          TruePositive=TruePositive+1;
+        end
+    end
+    
+    for i = 401 : 800
+        if (OClass(i)==1 && Ytest(i)==1)
+          TrueNegative=TrueNegative+1;
+        end
+    end
+    
+    
+       FalsePositive = 400 - TrueNegative;
+       FalseNegative = 400 - TruePositive;
+       
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%       
+Precision = TruePositive/(TruePositive+FalsePositive);
+Precision
+
+Recall = TruePositive/400;
+Recall
+
+Accuracy = ( TrueNegative + TruePositive )/800;
+Accuracy
+
+Fmeasure = (2*Precision*Recall)/(Precision+Recall);
+Fmeasure
